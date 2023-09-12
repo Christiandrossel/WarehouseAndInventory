@@ -11,11 +11,13 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.open.warehouseandinventory.databinding.ActivityMainBinding
+import com.open.warehouseandinventory.service.ProductFacadeService
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val productFacadeService = ProductFacadeService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         if (barcode != null) {
             startSecondFragment()
+            val product = productFacadeService.getProduct(barcode)
         } else {
             startFirstFragment()
         }
