@@ -1,5 +1,6 @@
 package com.open.warehouseandinventory
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -24,13 +25,20 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        val barcode = readBarcodeFromIntent()
+
+        if (barcode != null) {
+            startSecondFragment()
+        } else {
+            startFirstFragment()
+        }
+//        val navController = findNavController(R.id.nav_host_fragment_content_main)
+//        appBarConfiguration = AppBarConfiguration(navController.graph)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val intent = Intent(this, BarCodeScannerActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -54,5 +62,23 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    fun readBarcodeFromIntent(): String? {
+        val barcode = intent.getStringExtra("BARCODE")
+        if (barcode != null) {
+            Snackbar.make(binding.root, "Barcode: $barcode", Snackbar.LENGTH_LONG).show()
+        }
+        return barcode
+    }
+
+    fun startFirstFragment() {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
+    }
+
+    fun startSecondFragment() {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
     }
 }

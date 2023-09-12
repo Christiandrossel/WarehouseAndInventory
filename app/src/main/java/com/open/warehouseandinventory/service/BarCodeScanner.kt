@@ -1,11 +1,11 @@
-package com.open.warehouseandinventory
+package com.open.warehouseandinventory.service
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.integration.android.IntentResult
+import com.open.warehouseandinventory.MainActivity
 
 class BarCodeScanner(
     private val savedInstanceState: Bundle?,
@@ -33,8 +33,14 @@ class BarCodeScanner(
                 Toast.makeText(activity.applicationContext, "Scan abgebrochen", Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(activity.applicationContext, "Gescannt: " + result.contents, Toast.LENGTH_LONG).show()
+                sendDataToActivity(result.contents)
             }
         }
+    }
+
+    private fun sendDataToActivity(contents: String) {
+        val intent = Intent(activity, MainActivity::class.java)
+        intent.putExtra("BARCODE", contents)
     }
 
 }
