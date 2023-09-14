@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.open.warehouseandinventory.databinding.FragmentFirstBinding
+import com.open.warehouseandinventory.model.Product
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -23,10 +25,15 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        return binding.root
 
+
+        val productList = mutableListOf(Product( barcode = "1234", name = "Product 1", quantity =  10, description = "This is product 1"))
+        val adapter = ProductAdapter(productList)
+        binding.productRecyclerView.adapter = adapter
+        binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
