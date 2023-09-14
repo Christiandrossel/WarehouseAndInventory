@@ -1,10 +1,8 @@
 package com.open.warehouseandinventory.repository
 
 import com.open.warehouseandinventory.model.Product
+import io.paperdb.Paper
 
-/**
- * This Repository saves the products in a JSON file.
- */
 class ProductRepository  private constructor() {
     companion object {
         @Volatile
@@ -22,10 +20,10 @@ class ProductRepository  private constructor() {
     }
 
     fun get (id: String): Product? {
-        return Paper.book().read(id, null)
+        return Paper.book().read(id)
     }
 
     fun getAll (): List<Product> {
-        return Paper.book().allKeys.mapNotNull { Paper.book().read(it, null) }
+        return Paper.book().allKeys.mapNotNull { Paper.book().read(it) }
     }
 }
