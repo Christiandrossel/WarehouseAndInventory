@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class BarcodeLookupConnector: ProductConnector {
 
-    private val url = "https://api.barcodelookup.com/v3/products"
+    private val url = "https://api.barcodelookup.com/v3/products/"
     private val retroFit: Retrofit = Retrofit.Builder()
         .baseUrl(url)
         .addConverterFactory(GsonConverterFactory.create())

@@ -30,8 +30,22 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonSecond.setOnClickListener {
+        binding.buttonSave.setOnClickListener {
+            //TODO save
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+        }
+
+        binding.buttonCancel.setOnClickListener {
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+
+        }
+
+        binding.buttonIncrement.setOnClickListener {
+            //TODO increment
+        }
+
+        binding.buttonDecrement.setOnClickListener {
+            // TODO decrement
         }
     }
 

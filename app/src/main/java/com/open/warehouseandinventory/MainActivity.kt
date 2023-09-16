@@ -2,15 +2,17 @@ package com.open.warehouseandinventory
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import android.view.Menu
-import android.view.MenuItem
+import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.open.warehouseandinventory.databinding.ActivityMainBinding
 import com.open.warehouseandinventory.service.ProductService
+import io.paperdb.Paper
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        instanciateDatabase(this)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -30,15 +34,16 @@ class MainActivity : AppCompatActivity() {
 
         val barcode = readBarcodeFromIntent()
 
-        if (barcode != null) {
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        
+        if (barcode.isNullOrEmpty()) {
+            startListProductsFragment()
+        } else {
             productService.getProduct(barcode)
             startEditProductFragment()
-        } else {
-            startListProductsFragment()
         }
-//        val navController = findNavController(R.id.nav_host_fragment_content_main)
-//        appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
             val intent = Intent(this, BarCodeScannerActivity::class.java)
@@ -84,5 +89,9 @@ class MainActivity : AppCompatActivity() {
     fun startEditProductFragment() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
+    }
+
+    private fun instanciateDatabase(activity: MainActivity) {
+        Paper.init(activity)
     }
 }

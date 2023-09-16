@@ -61,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
         app:layout_constraintEnd_toStartOf="@id/buttonDecrement"
         app:layout_constraintStart_toEndOf="@id/editTextQuantity"
-        app:srcCompat="@android:drawable/btn_plus" />
+        app:srcCompat="@drawable/plus_circle" />
 
     <ImageButton
         android:id="@+id/buttonDecrement"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/btn_minus" />
+        app:srcCompat="@drawable/minus_circle" />
 
     <TextView
         android:id="@+id/textViewDescriptionLabel"
