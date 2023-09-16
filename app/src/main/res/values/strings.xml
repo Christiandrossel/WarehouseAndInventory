@@ -2,11 +2,19 @@
     <string name="app_name">WareHouseAndInventory</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label">Alle Produkte</string>
+    <string name="second_fragment_label">Produkt bearbeiten</string>
     <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="save_button">Speichern</string>
+    <string name="break_button">Abbrechen</string>
+    <string name="delete_button">Löschen</string>
+
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="text_barcode">Barcode:</string>
+    <string name="text_quantity">Anzahl:</string>
+    <string name="text_description">Beschreibung:</string>
+    <string name="text_name">Produktname:</string>
 </resources>
