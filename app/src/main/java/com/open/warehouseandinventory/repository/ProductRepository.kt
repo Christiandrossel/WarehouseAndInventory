@@ -23,6 +23,11 @@ class ProductRepository  private constructor() {
         return Paper.book().read(id)
     }
 
+    fun getProductByBarcode (barcode: String): Product? {
+        val products: List<Product> = Paper.book().allKeys.mapNotNull { Paper.book().read(it) }
+        return products.find { it.barcode == barcode }
+    }
+
     fun getAll (): List<Product> {
         return Paper.book().allKeys.mapNotNull { Paper.book().read(it) }
     }

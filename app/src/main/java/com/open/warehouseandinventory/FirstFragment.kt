@@ -1,6 +1,7 @@
 package com.open.warehouseandinventory
 
 import android.os.Bundle
+import android.view.InflateException
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.open.warehouseandinventory.databinding.FragmentFirstBinding
 import com.open.warehouseandinventory.model.Product
+import com.open.warehouseandinventory.repository.ProductRepository
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -33,6 +35,14 @@ class FirstFragment : Fragment() {
         binding.productRecyclerView.adapter = adapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
 
+        // update the list of products
+//        val productRepository = ProductRepository.getInstance()
+//        productRepository.products.observe(viewLifecycleOwner, {
+//            productList.clear()
+//            productList.addAll(it)
+//            adapter.notifyDataSetChanged()        // update the view
+//        })
+        
         return binding.root
     }
 

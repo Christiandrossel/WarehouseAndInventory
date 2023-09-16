@@ -1,6 +1,5 @@
 package com.open.warehouseandinventory
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -11,15 +10,13 @@ import androidx.navigation.ui.navigateUp
 import android.view.Menu
 import android.view.MenuItem
 import com.open.warehouseandinventory.databinding.ActivityMainBinding
-import com.open.warehouseandinventory.repository.ProductRepository
-import com.open.warehouseandinventory.service.ProductFacadeService
+import com.open.warehouseandinventory.service.ProductService
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val productFacadeService = ProductFacadeService()
-    private val productRepository = ProductRepository.getInstance()
+    private val productService = ProductService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,16 +26,15 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
+        productService.getAllProducts()
+
         val barcode = readBarcodeFromIntent()
 
         if (barcode != null) {
-            startSecondFragment()
-            val product = productFacadeService.getProduct(barcode)
-            if (product != null) {
-                productRepository.save(product)
-            }
+            productService.getProduct(barcode)
+            startEditProductFragment()
         } else {
-            startFirstFragment()
+            startListProductsFragment()
         }
 //        val navController = findNavController(R.id.nav_host_fragment_content_main)
 //        appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -80,12 +76,12 @@ class MainActivity : AppCompatActivity() {
         return barcode
     }
 
-    fun startFirstFragment() {
+    fun startListProductsFragment() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
     }
 
-    fun startSecondFragment() {
+    fun startEditProductFragment() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
     }
