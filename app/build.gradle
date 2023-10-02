@@ -7,6 +7,11 @@ android {
     namespace 'com.open.warehouseandinventory'
     compileSdk 33
 
+    dataBinding {
+        //noinspection DataBindingWithoutKapt
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.open.warehouseandinventory"
         minSdk 28
@@ -32,6 +37,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
@@ -55,4 +61,9 @@ dependencies {
     // Database
 //    implementation 'io.paperdb:paperdb:2.7.1'
     implementation 'io.github.pilgr:paperdb:2.7.2'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
 }

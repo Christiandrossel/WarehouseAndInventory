@@ -1,92 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".SecondFragment">
+    <data>
+        <variable
+                name="product"
+                type="com.open.warehouseandinventory.model.ProductLiveData"
+        />
+<!--                name="productViewModel"-->
+<!--                type="com.open.warehouseandinventory.model.viewmodel.ProductViewModel" -->
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SecondFragment">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textViewBarcodeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_barcode"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/textViewBarcodeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_barcode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextBarcode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/textViewBarcodeLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textViewBarcodeLabel" />
+            android:id="@+id/editTextBarcode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/textViewBarcodeLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewBarcodeLabel"
+            android:text="@={product.barcode}" />
 
     <TextView
-        android:id="@+id/textViewNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewBarcodeLabel" />
+            android:id="@+id/textViewNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewBarcodeLabel" />
 
     <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/textViewNameLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textViewNameLabel" />
+            android:id="@+id/editTextName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/textViewNameLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewNameLabel"
+            android:text="@={product.name}"/>
 
     <TextView
-        android:id="@+id/textViewQuantityLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_quantity"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewNameLabel" />
+            android:id="@+id/textViewQuantityLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_quantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewNameLabel" />
 
     <EditText
-        android:id="@+id/editTextQuantity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/textViewQuantityLabel"
-        app:layout_constraintEnd_toStartOf="@id/buttonIncrement"
-        app:layout_constraintStart_toEndOf="@id/textViewQuantityLabel" />
+            android:id="@+id/editTextQuantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@id/textViewQuantityLabel"
+            app:layout_constraintEnd_toStartOf="@id/buttonIncrement"
+            app:layout_constraintStart_toEndOf="@id/textViewQuantityLabel"
+            android:text="@={product.quantity}"/>
 
     <ImageButton
-        android:id="@+id/buttonIncrement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
-        app:layout_constraintEnd_toStartOf="@id/buttonDecrement"
-        app:layout_constraintStart_toEndOf="@id/editTextQuantity"
-        app:srcCompat="@drawable/plus_circle" />
+            android:id="@+id/buttonIncrement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
+            app:layout_constraintEnd_toStartOf="@id/buttonDecrement"
+            app:layout_constraintStart_toEndOf="@id/editTextQuantity"
+            app:srcCompat="@drawable/plus_circle" />
 
     <ImageButton
-        android:id="@+id/buttonDecrement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/minus_circle" />
+            android:id="@+id/buttonDecrement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/minus_circle" />
 
     <TextView
-        android:id="@+id/textViewDescriptionLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewQuantityLabel" />
+            android:id="@+id/textViewDescriptionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewQuantityLabel" />
 
     <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        app:layout_constraintBottom_toBottomOf="@id/textViewDescriptionLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textViewDescriptionLabel" />
+            android:id="@+id/editTextDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            app:layout_constraintBottom_toBottomOf="@id/textViewDescriptionLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewDescriptionLabel"
+            android:text="@={product.description}"/>
+
 
     <Button
         android:id="@+id/buttonSave"
@@ -107,3 +122,4 @@
         app:layout_constraintTop_toBottomOf="@id/editTextDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -5,8 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.open.warehouseandinventory.databinding.FragmentSecondBinding
+import com.open.warehouseandinventory.model.Product
+import com.open.warehouseandinventory.model.ProductLiveData
+import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
+import com.open.warehouseandinventory.service.ProductService
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -14,6 +20,8 @@ import com.open.warehouseandinventory.databinding.FragmentSecondBinding
 class SecondFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
+//    private val productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+    private val productService = ProductService()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,30 +30,36 @@ class SecondFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val product = ProductLiveData( barcode = MutableLiveData("1234"),
+            name = MutableLiveData("Product 1"), quantity =  MutableLiveData("10"), description = MutableLiveData("This is product 1"))
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        binding.product = product
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonSave.setOnClickListener {
-            //TODO save
+//            productViewModel.updateProductList()
+//            productService.saveProduct(productViewModel.product.value!!)
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
 
         binding.buttonCancel.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-
         }
 
         binding.buttonIncrement.setOnClickListener {
-            //TODO increment
+            // add 1 to quantity
+//            productViewModel.quantity.value =
+//                (productViewModel.quantity.value?.toInt()?.plus(1)).toString()
         }
 
         binding.buttonDecrement.setOnClickListener {
-            // TODO decrement
+            // subtract 1 from quantity
+//            productViewModel.quantity.value =
+//                (productViewModel.quantity.value?.toInt()?.minus(1)).toString()
         }
     }
 
