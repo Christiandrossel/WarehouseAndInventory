@@ -1,17 +1,13 @@
 package com.open.warehouseandinventory
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.open.warehouseandinventory.databinding.FragmentSecondBinding
-import com.open.warehouseandinventory.model.Product
-import com.open.warehouseandinventory.model.ProductLiveData
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 import com.open.warehouseandinventory.service.ProductService
 
@@ -32,9 +28,6 @@ class SecondFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-//        val product = ProductLiveData( barcode = MutableLiveData("1234"),
-//            name = MutableLiveData("Product 1"), quantity =  MutableLiveData("10"), description = MutableLiveData("This is product 1"))
-//        val product = productViewModel
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
         binding.product = productViewModel
         return binding.root
@@ -44,8 +37,18 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonSave.setOnClickListener {
-//            productViewModel.updateProductList()
-//            productService.saveProduct(productViewModel.product.value!!)
+            // If product not null then copy it and update it
+            productViewModel.product.value?.let {
+                productViewModel.updateProductList(
+                    productViewModel.updateProduct(
+                        barcode = binding.editTextBarcode.text.toString(),
+                        name = binding.editTextName.text.toString(),
+                        quantity = Integer.parseInt(binding.editTextQuantity.text.toString()),
+                        description = binding.editTextDescription.text.toString()
+                    )
+                )
+            }
+            productService.saveProduct(productViewModel.product.value!!)
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
 
@@ -55,14 +58,14 @@ class SecondFragment : Fragment() {
 
         binding.buttonIncrement.setOnClickListener {
             // add 1 to quantity
-//            productViewModel.quantity.value =
-//                (productViewModel.quantity.value?.toInt()?.plus(1)).toString()
+            productViewModel.updateQuantity((productViewModel.quantity.value?.toInt()?.plus(1)).toString())
+            binding.editTextQuantity.setText(productViewModel.quantity.value)
         }
 
         binding.buttonDecrement.setOnClickListener {
             // subtract 1 from quantity
-//            productViewModel.quantity.value =
-//                (productViewModel.quantity.value?.toInt()?.minus(1)).toString()
+            productViewModel.updateQuantity((productViewModel.quantity.value?.toInt()?.minus(1)).toString())
+            binding.editTextQuantity.setText(productViewModel.quantity.value)
         }
     }
 

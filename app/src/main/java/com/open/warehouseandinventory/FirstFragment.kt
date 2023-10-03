@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.open.warehouseandinventory.databinding.FragmentFirstBinding
-import com.open.warehouseandinventory.model.Product
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 
 /**
@@ -30,7 +29,7 @@ class FirstFragment : Fragment() {
     ): View? {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
-        val adapter = ProductAdapter(productViewModel.allProducts.value ?: setOf())
+        val adapter = ProductAdapter(productViewModel._allProducts.value ?: setOf())
         binding.productRecyclerView.adapter = adapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
         
@@ -41,7 +40,10 @@ class FirstFragment : Fragment() {
 //        super.onViewCreated(view, savedInstanceState)
 //
 //
-//        //TODO Listeneintrag anklicken
+//        //TODO Listeneintrag anklicken um zu bearbeiten
+          // TODO Listeneintrag swipen um zu löschen
+          // TODO gedrückt halten um mehrere zu löschen
+
 //    }
 
     override fun onDestroyView() {

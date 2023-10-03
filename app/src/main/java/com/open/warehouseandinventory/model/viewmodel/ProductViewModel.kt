@@ -7,61 +7,102 @@ import com.open.warehouseandinventory.model.Product
 
 class ProductViewModel: ViewModel() {
      val _product = MutableLiveData<Product>()
-     val allProducts = MutableLiveData<Set<Product>>()
+     val _allProducts = MutableLiveData<Set<Product>>()
 
     val product: LiveData<Product>
         get() = _product
 
     val products: LiveData<Set<Product>>
-        get() = allProducts
+        get() = _allProducts
 
 
-    var barcode: MutableLiveData<String>? = MutableLiveData<String>()
+    var barcode: MutableLiveData<String?>? = MutableLiveData<String?>()
         get() = _product.value?.barcode?.let { field }
-        set(value) {
-            if (!value?.value.isNullOrEmpty())
-                _product.value = product.value?.copy(barcode = value?.value)
-            field = value
-        }
-    var name: MutableLiveData<String>? = MutableLiveData<String>()
+
+    var name: MutableLiveData<String?>? = MutableLiveData<String?>()
         get() = _product.value?.name?.let { field }
-        set(value) {
-            if (!value?.value.isNullOrEmpty())
-                _product.value = product.value?.copy(name = value?.value)
-            field = value
-        }
+
     var quantity = MutableLiveData<String>()
         get() = _product.value?.quantity.toString().let { field }
-        set(value) {
-            if (!value.value.isNullOrEmpty())
-                _product.value =
-                    product.value?.copy(quantity = value.value?.let { Integer.parseInt(it) } ?: 0)
-            field = value
-        }
-    var description: MutableLiveData<String>? = MutableLiveData<String>()
+
+    var description: MutableLiveData<String?>? = MutableLiveData<String?>()
         get() = _product.value?.description?.let { field }
-        set(value) {
-            if (!value?.value.isNullOrEmpty())
-                _product.value = product.value?.copy(description = value?.value)
-            field = value
-        }
+
+    fun updateBarcode(newBarcode: String) {
+        _product.value = product.value?.copy(barcode = newBarcode)
+        barcode?.value = newBarcode
+    }
+
+    fun updateName(newName: String) {
+        _product.value = product.value?.copy(name = newName)
+        name?.value = newName
+    }
+
+    fun updateQuantity(newQuantity: String) {
+        _product.value = product.value?.copy(quantity = Integer.parseInt(newQuantity))
+        quantity.value = newQuantity
+    }
+
+    fun updateDescription(newDescription: String) {
+        _product.value = product.value?.copy(description = newDescription)
+        description?.value = newDescription
+    }
 
 
     fun setProduct(newProduct: Product) {
         _product.value = newProduct
-        if (allProducts.value == null) {
-            allProducts.value = setOf(newProduct)
+        if (_allProducts.value == null) {
+            _allProducts.value = setOf(newProduct)
         }
         else {
-            allProducts.value?.plus(product)
+            _allProducts.value?.plus(product)
+            // set value to barcode
+            barcode?.value = newProduct.barcode
+            name?.value = newProduct.name
+            quantity.value = newProduct.quantity.toString()
+            description?.value = newProduct.description
         }
     }
 
-    fun updateProductList() {
-        allProducts.value?.plus(product.value)
+    fun updateProduct(
+        name: String,
+        barcode: String,
+        quantity: Int,
+        description: String
+    ): Product {
+        _product.value = product.value?.copy(
+            name = name,
+            barcode = barcode,
+            quantity = quantity,
+            description = description
+        )
+        updateBarcode(barcode)
+        updateName(name)
+        updateQuantity(quantity.toString())
+        updateDescription(description)
+        return _product.value!!
     }
 
+    /**
+     * updates the list of products.
+     * If the product already exists in the list it is updated.
+     * If the product does not exist in the list it is added.
+     */
+    fun updateProductList(updatedProduct: Product) {       //TODO Speichert product nicht in die productliste
+        val currentProducts = _allProducts.value ?: emptySet()
+        val updatedProducts = currentProducts.map {
+            if (it.id == updatedProduct.id) {
+                updatedProduct
+            } else {
+                it
+            }
+        }.toSet()
+
+        _allProducts.value = updatedProducts
+    }
+
+
     fun setAllProducts(products: List<Product>) {
-        allProducts.value = products.toSet()
+        _allProducts.value = products.toSet()
     }
 }
