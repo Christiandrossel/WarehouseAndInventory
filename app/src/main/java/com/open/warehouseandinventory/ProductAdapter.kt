@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.open.warehouseandinventory.model.Product
 
-class ProductAdapter( private val productList: List<Product>) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+class ProductAdapter( private val productList: Set<Product> = setOf()) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val barcode: TextView = itemView.findViewById(R.id.barcode)
@@ -22,7 +22,7 @@ class ProductAdapter( private val productList: List<Product>) :RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = productList[position]
+        val currentItem = productList.elementAt(position)
         holder.barcode.text = currentItem.barcode
         holder.name.text = currentItem.name
         holder.quantity.text = currentItem.quantity.toString()

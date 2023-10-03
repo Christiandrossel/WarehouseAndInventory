@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.open.warehouseandinventory.databinding.ActivityMainBinding
+import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 import com.open.warehouseandinventory.service.ProductService
 import io.paperdb.Paper
 
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var productViewModel: ProductViewModel
     private val productService = ProductService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        productService.getAllProducts()
+        productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+
+        productService.addTestData()
+        productViewModel.setAllProducts(productService.getAllProducts())
+        productViewModel.setProduct(productService.getProduct("1234")!!)
 
         val barcode = readBarcodeFromIntent()
 
@@ -81,12 +88,12 @@ class MainActivity : AppCompatActivity() {
         return barcode
     }
 
-    fun startListProductsFragment() {
+    private fun startListProductsFragment() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
     }
 
-    fun startEditProductFragment() {
+    private fun startEditProductFragment() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
     }

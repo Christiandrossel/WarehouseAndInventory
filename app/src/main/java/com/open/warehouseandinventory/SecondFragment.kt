@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,8 +20,8 @@ import com.open.warehouseandinventory.service.ProductService
  */
 class SecondFragment : Fragment() {
 
+    private lateinit var productViewModel: ProductViewModel
     private var _binding: FragmentSecondBinding? = null
-//    private val productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
     private val productService = ProductService()
 
     // This property is only valid between onCreateView and
@@ -30,10 +31,12 @@ class SecondFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val product = ProductLiveData( barcode = MutableLiveData("1234"),
-            name = MutableLiveData("Product 1"), quantity =  MutableLiveData("10"), description = MutableLiveData("This is product 1"))
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        binding.product = product
+//        val product = ProductLiveData( barcode = MutableLiveData("1234"),
+//            name = MutableLiveData("Product 1"), quantity =  MutableLiveData("10"), description = MutableLiveData("This is product 1"))
+//        val product = productViewModel
+        productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
+        binding.product = productViewModel
         return binding.root
     }
 

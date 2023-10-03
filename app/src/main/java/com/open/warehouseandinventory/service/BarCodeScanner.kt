@@ -7,6 +7,11 @@ import android.widget.Toast
 import com.google.zxing.integration.android.IntentIntegrator
 import com.open.warehouseandinventory.MainActivity
 
+/**
+ * This class is used to scan a barcode.
+ * It is used in the MainActivity.
+ *
+ */
 class BarCodeScanner(
     private val savedInstanceState: Bundle?,
     private val activity: Activity
