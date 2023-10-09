@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.open.warehouseandinventory.databinding.FragmentSecondBinding
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 import com.open.warehouseandinventory.service.ProductService
@@ -31,6 +30,7 @@ class SecondFragment : Fragment(), NavigationService {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
         binding.product = productViewModel
+        changeProductScannerButton()
         return binding.root
     }
 
@@ -89,6 +89,12 @@ class SecondFragment : Fragment(), NavigationService {
                 )
             )
         }
+    }
+
+    private fun changeProductScannerButton() {
+        val fab = requireActivity().findViewById<View>(R.id.fab)
+        fab?.visibility = View.INVISIBLE
+        fab?.isEnabled = false
     }
 
     override fun navigateEditProductFragment(view: View) {

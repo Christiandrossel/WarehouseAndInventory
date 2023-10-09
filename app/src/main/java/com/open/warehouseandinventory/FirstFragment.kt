@@ -33,7 +33,7 @@ class FirstFragment : Fragment(), NavigationService {
         val adapter = ProductAdapter(productViewModel)
         binding.productRecyclerView.adapter = adapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
-        
+        changeProductScannerButton()
         return binding.root
     }
 
@@ -46,6 +46,12 @@ class FirstFragment : Fragment(), NavigationService {
           // TODO gedrückt halten um mehrere zu löschen
 
 //    }
+
+    private fun changeProductScannerButton() {
+        val fab = requireActivity().findViewById<View>(R.id.fab)
+        fab?.visibility = View.VISIBLE
+        fab?.isEnabled = true
+    }
 
     override fun navigateEditProductFragment(view: View) {
         view.findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)

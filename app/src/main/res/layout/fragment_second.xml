@@ -109,17 +109,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewQuantityLabel" />
 
-        <EditText
-            android:id="@+id/editTextDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:text="@={product.description}"
-            android:layout_marginTop="17dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/textViewDescriptionLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewDescriptionLabel" />
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="251dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDescriptionLabel">
+
+            <EditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:autofillHints=""
+                android:text="@={product.description}"
+                android:layout_marginTop="17dp"
+                android:textSize="20sp"
+                android:inputType="text|textMultiLine"
+                app:layout_constraintBottom_toBottomOf="@id/textViewDescriptionLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textViewDescriptionLabel" />
+        </ScrollView>
 
         <Button
             android:id="@+id/buttonSave"
