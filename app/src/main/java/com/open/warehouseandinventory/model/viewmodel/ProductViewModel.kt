@@ -9,13 +9,21 @@ class ProductViewModel: ViewModel() {
      val _product = MutableLiveData<Product>()
      val _allProducts = MutableLiveData<Set<Product>>()
 
+    /**
+     * This is the current product that is displayed in the form view and can be edited
+     */
     val product: LiveData<Product>
         get() = _product
 
+    /**
+     * The list of all products that are stored in the database and displayed in the list view
+     */
     val products: LiveData<Set<Product>>
         get() = _allProducts
 
-
+    /**
+     * the barcode from the current product
+     */
     var barcode: MutableLiveData<String?>? = MutableLiveData<String?>()
         get() = _product.value?.barcode?.let { field }
 
@@ -48,7 +56,10 @@ class ProductViewModel: ViewModel() {
         description?.value = newDescription
     }
 
-
+    /**
+     * Set a product in the product list and as current product
+     * Put all parameters of the product into the corresponding LiveData
+     */
     fun setProduct(newProduct: Product) {
         _product.value = newProduct
         if (_allProducts.value == null) {

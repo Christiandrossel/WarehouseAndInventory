@@ -29,7 +29,7 @@ class FirstFragment : Fragment() {
     ): View? {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
-        val adapter = ProductAdapter(productViewModel._allProducts.value ?: setOf())
+        val adapter = ProductAdapter(productViewModel)
         binding.productRecyclerView.adapter = adapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
         

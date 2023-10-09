@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.open.warehouseandinventory.model.Product
+import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 
-class ProductAdapter( private val productList: Set<Product> = setOf()) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+class ProductAdapter( private val productViewModel: ProductViewModel) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val barcode: TextView = itemView.findViewById(R.id.barcode)
@@ -22,12 +24,25 @@ class ProductAdapter( private val productList: Set<Product> = setOf()) :Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = productList.elementAt(position)
-        holder.barcode.text = currentItem.barcode
-        holder.name.text = currentItem.name
-        holder.quantity.text = currentItem.quantity.toString()
-        holder.description.text = currentItem.description
+        val currentItem = productViewModel.products.value?.elementAt(position)
+        holder.barcode.text = currentItem?.barcode
+        holder.name.text = currentItem?.name
+        holder.quantity.text = currentItem?.quantity.toString()
+        holder.description.text = currentItem?.description
+
+        currentCardClickListener(holder, currentItem)
+
     }
 
-    override fun getItemCount() = productList.size
+    private fun currentCardClickListener(
+        holder: ViewHolder,
+        currentItem: Product?
+    ) {
+        holder.itemView.setOnClickListener {
+            holder.itemView.findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            currentItem?.let { productViewModel.setProduct(it) }
+        }
+    }
+
+    override fun getItemCount() = productViewModel.products.value?.size ?: 0
 }

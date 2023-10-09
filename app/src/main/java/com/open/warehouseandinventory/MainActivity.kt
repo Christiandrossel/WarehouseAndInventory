@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -93,9 +94,9 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
     }
 
-    private fun startEditProductFragment() {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
+    fun startEditProductFragment(navController: NavController? = null) {
+        val newNavController = navController ?: findNavController(R.id.nav_host_fragment_content_main)
+        newNavController.navigate(R.id.action_SecondFragment_to_FirstFragment)
     }
 
     private fun instanciateDatabase(activity: MainActivity) {
