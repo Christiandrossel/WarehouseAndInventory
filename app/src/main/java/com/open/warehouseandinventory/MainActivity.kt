@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -17,7 +17,7 @@ import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 import com.open.warehouseandinventory.service.ProductService
 import io.paperdb.Paper
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationService {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -45,15 +45,18 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        
-        if (barcode.isNullOrEmpty()) {
-            startListProductsFragment()
-        } else {
+
+        val view = findViewById<View?>(android.R.id.content)
+        if (barcode != null) {
             productService.getProduct(barcode)
-            startEditProductFragment()
+            navigateEditProductFragment(view)
         }
 
-        binding.fab.setOnClickListener { view ->
+        barcodeScannerClickListener()
+    }
+
+    private fun barcodeScannerClickListener() {
+        binding.fab.setOnClickListener {
             val intent = Intent(this, BarCodeScannerActivity::class.java)
             startActivity(intent)
         }
@@ -89,14 +92,14 @@ class MainActivity : AppCompatActivity() {
         return barcode
     }
 
-    private fun startListProductsFragment() {
+    override fun navigateListProductsFragment(view: View) {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
+        navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
     }
 
-    fun startEditProductFragment(navController: NavController? = null) {
-        val newNavController = navController ?: findNavController(R.id.nav_host_fragment_content_main)
-        newNavController.navigate(R.id.action_SecondFragment_to_FirstFragment)
+    override fun navigateEditProductFragment(view: View) {
+        val newNavController = findNavController(R.id.nav_host_fragment_content_main)
+        newNavController.navigate(R.id.action_FirstFragment_to_SecondFragment)
     }
 
     private fun instanciateDatabase(activity: MainActivity) {

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.open.warehouseandinventory.databinding.FragmentFirstBinding
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
@@ -13,7 +14,7 @@ import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class FirstFragment : Fragment(), NavigationService {
 
     private lateinit var productViewModel: ProductViewModel
 
@@ -26,7 +27,7 @@ class FirstFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
         val adapter = ProductAdapter(productViewModel)
@@ -45,6 +46,14 @@ class FirstFragment : Fragment() {
           // TODO gedrückt halten um mehrere zu löschen
 
 //    }
+
+    override fun navigateEditProductFragment(view: View) {
+        view.findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+    }
+
+    override fun navigateListProductsFragment(view: View) {
+        view.findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

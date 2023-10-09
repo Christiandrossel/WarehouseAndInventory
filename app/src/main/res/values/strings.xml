@@ -4,6 +4,7 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">Alle Produkte</string>
     <string name="second_fragment_label">Produkt bearbeiten</string>
+    <string name="barcode_activity_label">Barcode Scannen</string>
     <string name="next">Next</string>
     <string name="save_button">Speichern</string>
     <string name="break_button">Abbrechen</string>
