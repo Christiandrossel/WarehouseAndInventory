@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.open.warehouseandinventory.databinding.FragmentFirstBinding
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
@@ -17,6 +18,7 @@ import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 class FirstFragment : Fragment(), NavigationService {
 
     private lateinit var productViewModel: ProductViewModel
+    private lateinit var adapter: ProductAdapter
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -30,10 +32,18 @@ class FirstFragment : Fragment(), NavigationService {
     ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
-        val adapter = ProductAdapter(productViewModel)
+
+        // Set product adapter and remove item
+        adapter = ProductAdapter(productViewModel) { position ->
+            adapter.removeItem(position)
+        }
+
         binding.productRecyclerView.adapter = adapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
         changeProductScannerButton()
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
+        itemTouchHelper.attachToRecyclerView(binding.productRecyclerView)
         return binding.root
     }
 

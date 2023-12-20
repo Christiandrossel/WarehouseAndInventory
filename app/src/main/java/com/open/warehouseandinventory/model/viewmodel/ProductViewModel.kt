@@ -1,5 +1,6 @@
 package com.open.warehouseandinventory.model.viewmodel
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -115,5 +116,22 @@ class ProductViewModel: ViewModel() {
 
     fun setAllProducts(products: List<Product>) {
         _allProducts.value = products.toSet()
+    }
+
+    fun removeAt(position: Int) {
+        val currentProducts = _allProducts.value ?: emptySet()
+        val updatedProducts = currentProducts.toMutableSet()
+        updatedProducts.remove(updatedProducts.elementAt(position))
+        _allProducts.value = updatedProducts
+        _allProducts.removeObserver {
+            // erstelle ein Toast und frage ob die löschung rückgängig gemacht werden soll
+            //TODO
+        }
+
+    }
+
+
+    private fun undoDelete() {
+        //TODO
     }
 }

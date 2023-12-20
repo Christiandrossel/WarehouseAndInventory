@@ -4,12 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.open.warehouseandinventory.model.Product
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 
-class ProductAdapter( private val productViewModel: ProductViewModel) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+class ProductAdapter(
+    private val productViewModel: ProductViewModel,
+    private val onDeleteListener: (position: Int) -> Unit
+) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val barcode: TextView = itemView.findViewById(R.id.barcode)
@@ -45,4 +49,15 @@ class ProductAdapter( private val productViewModel: ProductViewModel) :RecyclerV
     }
 
     override fun getItemCount() = productViewModel.products.value?.size ?: 0
+
+    // Delete item from list
+    fun removeItem(position: Int) {
+        productViewModel.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    // here the onDeleteListener is called when a card is swiped left or right
+    fun onSwipeToDelete(position: Int) {
+        onDeleteListener.invoke(position)
+    }
 }
