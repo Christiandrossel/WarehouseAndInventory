@@ -41,7 +41,7 @@ class FirstFragment : Fragment(), NavigationService {
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
         changeProductScannerButton()
 
-        val itemTouchHelper = ItemTouchHelper(SwipeGesture(adapter))
+        val itemTouchHelper = ItemTouchHelper(SwipeGesture(adapter, this))
         itemTouchHelper.attachToRecyclerView(binding.productRecyclerView)
 
         observeProducts()

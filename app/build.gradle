@@ -65,4 +65,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
+    // Swipe Gesture add background
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
 }

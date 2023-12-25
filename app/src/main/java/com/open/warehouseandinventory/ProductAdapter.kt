@@ -20,6 +20,7 @@ class ProductAdapter(
 
     private lateinit var view: View
 
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val barcode: TextView = itemView.findViewById(R.id.barcode)
         val name: TextView = itemView.findViewById(R.id.name)
