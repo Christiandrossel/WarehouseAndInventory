@@ -3,7 +3,7 @@ package com.open.warehouseandinventory;
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class SwipeToDeleteCallback(private val adapter: ProductAdapter) :
+class SwipeGesture(private val adapter: ProductAdapter) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
     override fun onMove(
@@ -15,7 +15,6 @@ class SwipeToDeleteCallback(private val adapter: ProductAdapter) :
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        // onSwipeToDelete wird aufgerufen, wenn eine Karte nach links oder rechts gewischt wird
         adapter.onSwipeToDelete(viewHolder.adapterPosition)
     }
 }

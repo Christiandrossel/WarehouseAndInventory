@@ -1,5 +1,6 @@
 package com.open.warehouseandinventory
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,16 +35,16 @@ class FirstFragment : Fragment(), NavigationService {
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
 
         // Set product adapter and remove item
-        adapter = ProductAdapter(productViewModel) { position ->
-            adapter.removeItem(position)
-        }
+        adapter = ProductAdapter(productViewModel, this)
 
         binding.productRecyclerView.adapter = adapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
         changeProductScannerButton()
 
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter))
+        val itemTouchHelper = ItemTouchHelper(SwipeGesture(adapter))
         itemTouchHelper.attachToRecyclerView(binding.productRecyclerView)
+
+        observeProducts()
         return binding.root
     }
 
@@ -56,6 +57,13 @@ class FirstFragment : Fragment(), NavigationService {
           // TODO gedrückt halten um mehrere zu löschen
 
 //    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun observeProducts() {
+        productViewModel.products.observe(viewLifecycleOwner) {
+            adapter.notifyDataSetChanged()
+        }
+    }
 
     private fun changeProductScannerButton() {
         val fab = requireActivity().findViewById<View>(R.id.fab)

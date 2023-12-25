@@ -73,14 +73,13 @@ class SecondFragment : Fragment(), NavigationService {
         binding.buttonSave.setOnClickListener {
             updateProductViewModel()
             productService.saveProduct(productViewModel.product.value!!)
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             navigateListProductsFragment(it)
         }
     }
 
     private fun updateProductViewModel() {
         productViewModel.product.value?.let {
-            productViewModel.updateProductList(
+            productViewModel.updateProducts(
                 productViewModel.updateProduct(
                     barcode = binding.editTextBarcode.text.toString(),
                     name = binding.editTextName.text.toString(),

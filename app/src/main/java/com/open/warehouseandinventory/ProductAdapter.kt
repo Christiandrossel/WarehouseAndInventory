@@ -4,16 +4,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.open.warehouseandinventory.model.Product
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 
 class ProductAdapter(
     private val productViewModel: ProductViewModel,
-    private val onDeleteListener: (position: Int) -> Unit
+    private val fragment: Fragment,
 ) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+
+
+    private lateinit var view: View
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val barcode: TextView = itemView.findViewById(R.id.barcode)
@@ -23,7 +28,7 @@ class ProductAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_cardview, parent, false)
+        view = LayoutInflater.from(parent.context).inflate(R.layout.product_cardview, parent, false)
         return ViewHolder(view)
     }
 
@@ -50,14 +55,32 @@ class ProductAdapter(
 
     override fun getItemCount() = productViewModel.products.value?.size ?: 0
 
-    // Delete item from list
-    fun removeItem(position: Int) {
-        productViewModel.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
     // here the onDeleteListener is called when a card is swiped left or right
     fun onSwipeToDelete(position: Int) {
-        onDeleteListener.invoke(position)
+        val productToDelete = productViewModel.getProduct(position)
+            ?: throw ProductCanNotDeleteException(position, IllegalStateException())
+
+        val snackbar = Snackbar.make(
+            this.view,
+            "Product ${productToDelete.name} deleted",
+            Snackbar.LENGTH_SHORT
+        )
+
+        snackbar.setAction("UNDO") {
+            productViewModel.setProduct(productToDelete)
+            productViewModel.addProductAt(position, productToDelete)
+            notifyItemInserted(position)
+            snackbar.dismiss()
+        }
+
+        snackbar.setActionTextColor(ContextCompat.getColor(this.view.context, R.color.white))
+        if (snackbar.isShown) {
+            snackbar.dismiss()
+        } else {
+            snackbar.show()
+        }
+
+        productViewModel.removeAt(position)
+        notifyItemRemoved(position)
     }
 }

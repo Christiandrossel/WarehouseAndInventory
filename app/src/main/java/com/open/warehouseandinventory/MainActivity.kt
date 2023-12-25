@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationService {
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
         productService.addTestData()
-        productViewModel.setAllProducts(productService.getAllProducts())
+        productViewModel.addAllProducts(productService.getAllProducts())
         productViewModel.setProduct(productService.getProduct("1234")!!)
 
         val barcode = readBarcodeFromIntent()

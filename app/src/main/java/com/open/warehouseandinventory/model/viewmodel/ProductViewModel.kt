@@ -1,14 +1,13 @@
 package com.open.warehouseandinventory.model.viewmodel
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.open.warehouseandinventory.model.Product
 
 class ProductViewModel: ViewModel() {
-     val _product = MutableLiveData<Product>()
-     val _allProducts = MutableLiveData<Set<Product>>()
+    private val _allProducts = MutableLiveData<MutableList<Product>>()
+    private val _product = MutableLiveData<Product>()
 
     /**
      * This is the current product that is displayed in the form view and can be edited
@@ -19,8 +18,8 @@ class ProductViewModel: ViewModel() {
     /**
      * The list of all products that are stored in the database and displayed in the list view
      */
-    val products: LiveData<Set<Product>>
-        get() = _allProducts
+    val products: LiveData<List<Product>>
+        get() = _allProducts.value?.toMutableList()?.let { MutableLiveData(it) } ?: MutableLiveData()
 
     /**
      * the barcode from the current product
@@ -57,6 +56,11 @@ class ProductViewModel: ViewModel() {
         description?.value = newDescription
     }
 
+
+    fun getProduct(position: Int): Product? {
+        return _allProducts.value?.get(position)
+    }
+
     /**
      * Set a product in the product list and as current product
      * Put all parameters of the product into the corresponding LiveData
@@ -64,11 +68,10 @@ class ProductViewModel: ViewModel() {
     fun setProduct(newProduct: Product) {
         _product.value = newProduct
         if (_allProducts.value == null) {
-            _allProducts.value = setOf(newProduct)
+            _allProducts.value = mutableListOf(newProduct)
         }
         else {
-            _allProducts.value?.plus(product)
-            // set value to barcode
+            // set value from product to LiveData
             barcode?.value = newProduct.barcode
             name?.value = newProduct.name
             quantity.value = newProduct.quantity.toString()
@@ -92,6 +95,8 @@ class ProductViewModel: ViewModel() {
         updateName(name)
         updateQuantity(quantity.toString())
         updateDescription(description)
+
+//        updateProductList()
         return _product.value!!
     }
 
@@ -100,38 +105,27 @@ class ProductViewModel: ViewModel() {
      * If the product already exists in the list it is updated.
      * If the product does not exist in the list it is added.
      */
-    fun updateProductList(updatedProduct: Product) {       //TODO Speichert product nicht in die productliste
-        val currentProducts = _allProducts.value ?: emptySet()
-        val updatedProducts = currentProducts.map {
-            if (it.id == updatedProduct.id) {
-                updatedProduct
-            } else {
-                it
+    fun updateProducts(updatedProduct: Product) {
+        _allProducts.value?.let {
+            val index = it.indexOfFirst { product -> product.id == updatedProduct.id }
+            if (index >= 0) {
+                it[index] = updatedProduct
             }
-        }.toSet()
-
-        _allProducts.value = updatedProducts
+            else {
+                it.add(updatedProduct)
+            }
+        }
     }
 
-
-    fun setAllProducts(products: List<Product>) {
-        _allProducts.value = products.toSet()
+    fun addAllProducts(products: List<Product>) {
+        _allProducts.value = products.toMutableList()
     }
 
     fun removeAt(position: Int) {
-        val currentProducts = _allProducts.value ?: emptySet()
-        val updatedProducts = currentProducts.toMutableSet()
-        updatedProducts.remove(updatedProducts.elementAt(position))
-        _allProducts.value = updatedProducts
-        _allProducts.removeObserver {
-            // erstelle ein Toast und frage ob die löschung rückgängig gemacht werden soll
-            //TODO
-        }
-
+        _allProducts.value?.removeAt(position)
     }
 
-
-    private fun undoDelete() {
-        //TODO
+    fun addProductAt(position: Int, productToDelete: Product) {
+        _allProducts.value?.add(position, productToDelete)
     }
 }
