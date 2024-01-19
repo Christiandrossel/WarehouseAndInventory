@@ -51,14 +51,17 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    // bar code scan library
+    // bar code scan library //TODO delete this if google code scanner works
     implementation 'com.google.zxing:core:3.5.2'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    // barcode scanner google code scanner
+    // docu: https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner?hl=de
+    implementation 'com.google.android.gms:play-services-code-scanner:16.1.0'
+
     // API call
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // Database
-//    implementation 'io.paperdb:paperdb:2.7.1'
     implementation 'io.github.pilgr:paperdb:2.7.2'
 
     // ViewModel

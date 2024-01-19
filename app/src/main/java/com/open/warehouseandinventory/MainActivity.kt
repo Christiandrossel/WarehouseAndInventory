@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.open.warehouseandinventory.databinding.ActivityMainBinding
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 import com.open.warehouseandinventory.service.ProductService
+import com.open.warehouseandinventory.service.v2.BarcodeScannerV2
 import io.paperdb.Paper
 
 class MainActivity : AppCompatActivity(), NavigationService {
@@ -57,8 +58,11 @@ class MainActivity : AppCompatActivity(), NavigationService {
 
     private fun barcodeScannerClickListener() {
         binding.fab.setOnClickListener {
-            val intent = Intent(this, BarCodeScannerActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, BarCodeScannerActivity::class.java)
+//            startActivity(intent)
+            BarcodeScannerV2(this)
+            // IF BarcodeScanner closed then navigate to SecondFragment
+            navigateEditProductFragment(it)
         }
     }
 

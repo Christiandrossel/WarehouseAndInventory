@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.google.zxing.integration.android.IntentIntegrator
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanIntentResult
+import com.journeyapps.barcodescanner.ScanOptions
 import com.open.warehouseandinventory.MainActivity
 
 /**
@@ -17,7 +20,13 @@ class BarCodeScanner(
     private val activity: Activity
 ) {
 
+    // TODO check SDK Version --> SDK 24+ will work with the new library
+
+//    private var integrator: IntentIntegrator = IntentIntegrator(activity)  // This is Deprecated
     private var integrator: IntentIntegrator = IntentIntegrator(activity)
+    private var scanOptions: ScanOptions = ScanOptions()
+    private var scanContract: ScanContract = ScanContract()
+
 
     init {
         // Start the Barcode-Scanner
@@ -32,7 +41,8 @@ class BarCodeScanner(
 
     // override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     fun getResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        val result = ScanIntentResult.parseActivityResult(resultCode, data)
+//        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data) // This is Deprecated
         if (result != null) {
             if (result.contents == null) {
                 Toast.makeText(activity.applicationContext, "Scan abgebrochen", Toast.LENGTH_LONG).show()

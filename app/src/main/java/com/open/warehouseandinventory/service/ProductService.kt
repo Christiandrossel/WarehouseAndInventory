@@ -1,5 +1,6 @@
 package com.open.warehouseandinventory.service
 
+import android.util.Log
 import com.open.warehouseandinventory.model.Product
 import com.open.warehouseandinventory.repository.ProductRepository
 
@@ -37,5 +38,6 @@ class ProductService {
             Product(id = "555", barcode = "1238", name = "Product 5", quantity = 50, description = "This is product 5")
         val productlist = listOf(product1, product2, product3, product4, product5)
         productlist.forEach { productRepository.save(it) }
+        Log.i("ProductService", "Added test data")
     }
 }
