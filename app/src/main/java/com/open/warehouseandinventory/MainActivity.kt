@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationService {
 
         val view = findViewById<View?>(android.R.id.content)
         if (barcode != null) {
-            productService.getProduct(barcode)
+            productViewModel.setProduct(productService.getProduct(barcode))
             navigateEditProductFragment(view)
         }
 
@@ -60,8 +60,9 @@ class MainActivity : AppCompatActivity(), NavigationService {
         binding.fab.setOnClickListener {
 //            val intent = Intent(this, BarCodeScannerActivity::class.java)
 //            startActivity(intent)
-            BarcodeScannerV2(this)
-            // IF BarcodeScanner closed then navigate to SecondFragment
+            BarcodeScannerV2(this, productViewModel) { barcode ->
+                productViewModel.setProduct(productService.getProduct(barcode))
+            }
             navigateEditProductFragment(it)
         }
     }

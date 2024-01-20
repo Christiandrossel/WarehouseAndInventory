@@ -20,11 +20,15 @@ class BarcodeLookupConnector: ProductConnector {
         // call the API with barcode
         val productApiService = retroFit.create(BarCodeLookupApiService::class.java)
         val call = productApiService.getProduct(barcode, "y", apiKey)
-
-        val response = call.execute()
-        return if (response.isSuccessful) {
-            response.body()?.toProduct()
-        } else {
+        return try {
+            val response = call.execute()
+            if (response.isSuccessful) {
+                response.body()?.toProduct()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace() //TODO NetworkOnMainThreadException fix it
             null
         }
     }

@@ -22,7 +22,12 @@ class BarCodeScannerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bar_code_scanner)
         Log.d("BARCODE", "BarCodeScannerActivity was created!")
 //        barCodeScanner = BarCodeScanner(savedInstanceState, this)
-        barCodeScanner = BarcodeScannerV2(this)
+//        barCodeScanner = BarcodeScannerV2(this, productViewModel) {
+//            Log.d("BARCODE", "BarcodeScannerV2 returned: $it")
+//            val intent = Intent(this, MainActivity::class.java)
+//            intent.putExtra("BARCODE", it)
+//            startActivity(intent)
+//        }
     }
 
 

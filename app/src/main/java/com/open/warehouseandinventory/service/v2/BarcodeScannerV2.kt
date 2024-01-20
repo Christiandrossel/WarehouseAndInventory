@@ -10,12 +10,14 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import com.open.warehouseandinventory.R
+import com.open.warehouseandinventory.model.Product
+import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 
 /**
  * This is a BarcodeScanner from Google Barcode Scanner library.
  * Docu: https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner?hl=de
  */
-class BarcodeScannerV2(context: Context, ) {
+class BarcodeScannerV2(context: Context, productViewModel: ProductViewModel, onBarcodeScanned: (String) -> Unit) {
 
     init {
         Log.d("BARCODE", "BarcodeScannerV2 was initialized!")
@@ -28,24 +30,25 @@ class BarcodeScannerV2(context: Context, ) {
                 val rawValue: String? = barcode.rawValue
                 rawValue?.let {
                     Log.d("BARCODE", "Scan was successful!, $rawValue")
-                    // TODO send data to activity
-                    Intent().apply {
-                        putExtra("BARCODE", rawValue)
-                    }
+                    onBarcodeScanned(rawValue)
                 } ?: run {
                     Log.d("BARCODE", "Scan was successful!, but rawValue is null")
+                    productViewModel.setProduct(Product())
                 }
             }
             .addOnCanceledListener {
                 // Task canceled
                 Log.d("BARCODE", "Scan was canceled!")
-                // navigate to Second Fragment
-
+                productViewModel.setProduct(Product())
             }
             .addOnFailureListener { e ->
                 // Task failed with an exception
-                Log.d("BARCODE", "Scan failed!", e)
+                Log.d("BARCODE", "Scan failed!")
+                e.printStackTrace()
+                productViewModel.setProduct(Product())
             }
+
+
     }
 
     private fun generateGmsBarcodeScannerOptions() = GmsBarcodeScannerOptions.Builder()

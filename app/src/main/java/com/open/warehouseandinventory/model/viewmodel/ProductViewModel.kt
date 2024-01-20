@@ -128,4 +128,17 @@ class ProductViewModel: ViewModel() {
     fun addProductAt(position: Int, productToDelete: Product) {
         _allProducts.value?.add(position, productToDelete)
     }
+
+    fun isNotEmpty(): Boolean {
+        return name?.value?.isNotEmpty() == true
+                && quantity.value?.isNotEmpty() == true
+                && quantity.value?.toInt()!! > 0
+    }
+
+    fun isQuantityEmpty() : Boolean {
+        return quantity.value?.isEmpty() == true
+    }
+    fun isQuantityLowerThenZero() : Boolean {
+        return quantity.value?.toInt()!! < 0
+    }
 }

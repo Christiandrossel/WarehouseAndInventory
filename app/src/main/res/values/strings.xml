@@ -18,4 +18,10 @@
     <string name="text_quantity">Anzahl:</string>
     <string name="text_description">Beschreibung:</string>
     <string name="text_name">Produktname:</string>
+
+    <!-- Error Messages -->
+    <string name="error_empty_product_name">Produktname darf nicht leer sein!</string>
+    <string name="error_empty_quantity">Anzahl darf nicht leer sein!</string>
+    <string name="error_lower_null">Anzahl darf nicht kleiner Null sein!</string>
+
 </resources>

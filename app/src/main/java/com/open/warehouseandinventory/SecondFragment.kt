@@ -1,6 +1,7 @@
 package com.open.warehouseandinventory
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class SecondFragment : Fragment(), NavigationService {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
+        productViewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
         binding.product = productViewModel
         changeProductScannerButton()
         return binding.root
@@ -36,14 +37,21 @@ class SecondFragment : Fragment(), NavigationService {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        productObserver()
 
         saveButtonClickListener()
-
         cancelButtonClickListener()
-
         incrementButtonClickListener()
-
         decrementButtonClickListener()
+    }
+
+    private fun productObserver() {
+        productViewModel.product.observe(viewLifecycleOwner) {
+            binding.editTextBarcode.setText(it.barcode)
+            binding.editTextName.setText(it.name)
+            binding.editTextQuantity.setText(it.quantity.toString())
+            binding.editTextDescription.setText(it.description)
+        }
     }
 
     private fun decrementButtonClickListener() {
@@ -71,13 +79,17 @@ class SecondFragment : Fragment(), NavigationService {
 
     private fun saveButtonClickListener() {
         binding.buttonSave.setOnClickListener {
-            updateProductViewModel()
-            productService.saveProduct(productViewModel.product.value!!)
-            navigateListProductsFragment(it)
+            updateProductViewModelFromUiView()
+            if (productViewModel.isNotEmpty()) {
+                productService.saveProduct(productViewModel.product.value!!)
+                navigateListProductsFragment(it)
+            } else {
+                produceMissingFieldMessage()
+            }
         }
     }
 
-    private fun updateProductViewModel() {
+    private fun updateProductViewModelFromUiView() {
         productViewModel.product.value?.let {
             productViewModel.updateProducts(
                 productViewModel.updateProduct(
@@ -89,6 +101,20 @@ class SecondFragment : Fragment(), NavigationService {
             )
         }
     }
+
+    /**
+     * Produces a message if the name or quantity field is empty.
+     */
+   private fun produceMissingFieldMessage() {
+            Log.d("Product", "name and quantity must not be empty!")
+            binding.editTextName.error = getString(R.string.error_empty_product_name)
+            when {
+                productViewModel.isQuantityEmpty() -> binding.editTextQuantity.error = getString(R.string.error_empty_quantity)
+                productViewModel.isQuantityLowerThenZero() -> binding.editTextQuantity.error = getString(R.string.error_lower_null)
+            }
+        }
+
+
 
     private fun changeProductScannerButton() {
         val fab = requireActivity().findViewById<View>(R.id.fab)
@@ -106,6 +132,7 @@ class SecondFragment : Fragment(), NavigationService {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d("SecondFragment", "onDestroyView")
         _binding = null
     }
 }

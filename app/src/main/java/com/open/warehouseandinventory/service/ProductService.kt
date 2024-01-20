@@ -9,11 +9,17 @@ class ProductService {
     private val productFacadeService = ProductFacadeService()
     private val productRepository = ProductRepository.getInstance()
 
-    fun getProduct(barcode: String): Product? {
+    fun getProduct(barcode: String): Product {
         return productRepository.getProductByBarcode(barcode)
+            .also { Log.d("Product", "Product already exists and is being issued!") }
             ?: productFacadeService.getProduct(barcode)?.let {
+                Log.d("Product", "Product was retrieved via API and is being saved!")
                 productRepository.save(it)
                 it
+            }
+            ?: Product(barcode = barcode).also {
+                Log.d("Product", "A new product has been created.")
+                productRepository.save(it)
             }
     }
 
