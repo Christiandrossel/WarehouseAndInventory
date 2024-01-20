@@ -14,7 +14,7 @@ import com.open.warehouseandinventory.model.Product
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 
 /**
- * This is a BarcodeScanner from Google Barcode Scanner library.
+ * This is a BarcodeScanner from Google mlkit Barcode Scanner library.
  * Docu: https://developers.google.com/ml-kit/vision/barcode-scanning/code-scanner?hl=de
  */
 class BarcodeScannerV2(context: Context, productViewModel: ProductViewModel, onBarcodeScanned: (String) -> Unit) {
@@ -51,6 +51,10 @@ class BarcodeScannerV2(context: Context, productViewModel: ProductViewModel, onB
 
     }
 
+    /**
+     * This method generates the options for the BarcodeScanner.
+     * Here is defined which barcode formats are supported.
+     */
     private fun generateGmsBarcodeScannerOptions() = GmsBarcodeScannerOptions.Builder()
         .setBarcodeFormats(
             Barcode.FORMAT_CODE_128,
