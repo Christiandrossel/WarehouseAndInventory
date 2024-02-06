@@ -3,16 +3,12 @@ package com.open.warehouseandinventory.repository
 import com.open.warehouseandinventory.model.Product
 import io.paperdb.Paper
 
+/**
+ * This singleton class is responsible for storing and retrieving the products of the application
+ */
 class ProductRepository  private constructor() {
     companion object {
-        @Volatile
-        private var repository: ProductRepository? = null
-
-        fun getInstance(): ProductRepository {
-            return repository ?: synchronized(this) {
-                repository ?: ProductRepository().also { repository = it }
-            }
-        }
+        val instance: ProductRepository by lazy { ProductRepository() }
     }
 
     fun save (product: Product) {

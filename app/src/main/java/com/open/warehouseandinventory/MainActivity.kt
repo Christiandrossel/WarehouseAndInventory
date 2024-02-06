@@ -1,29 +1,41 @@
 package com.open.warehouseandinventory
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.open.warehouseandinventory.databinding.ActivityMainBinding
+import com.open.warehouseandinventory.model.Constant
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 import com.open.warehouseandinventory.service.ProductService
+import com.open.warehouseandinventory.service.SettingsService
 import com.open.warehouseandinventory.service.v2.BarcodeScannerV2
+import com.open.warehouseandinventory.test.TestdataService
 import io.paperdb.Paper
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), NavigationService {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var productViewModel: ProductViewModel
-    private val productService = ProductService()
+    private val productService = ProductService.instance
+    private val testDataService = TestdataService.instance
+    private val Context.dataStore by preferencesDataStore(name = Constant.SETTINGS)
+    private val settingsService: SettingsService by lazy {
+        SettingsService.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +49,11 @@ class MainActivity : AppCompatActivity(), NavigationService {
 
         productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-        productService.addTestData()
+        isTestingEnabled(false)
+        addTestData()
+
         productViewModel.addAllProducts(productService.getAllProducts())
-        productViewModel.setProduct(productService.getProduct("1234")!!)
+        //productViewModel.setProduct(productService.getProduct("1234")!!)
 
         val barcode = readBarcodeFromIntent()
 
@@ -58,8 +72,6 @@ class MainActivity : AppCompatActivity(), NavigationService {
 
     private fun barcodeScannerClickListener() {
         binding.fab.setOnClickListener {
-//            val intent = Intent(this, BarCodeScannerActivity::class.java)
-//            startActivity(intent)
             BarcodeScannerV2(this, productViewModel) { barcode ->
                 productViewModel.setProduct(productService.getProduct(barcode))
             }
@@ -109,5 +121,23 @@ class MainActivity : AppCompatActivity(), NavigationService {
 
     private fun instanciateDatabase(activity: MainActivity) {
         Paper.init(activity)
+    }
+
+    private fun addTestData() { //TODO test it
+        lifecycleScope.launch {
+            settingsService.getIsTestingEnabled().collect(
+                FlowCollector {
+                    if (it) {
+                        testDataService.addTestData()
+                    }
+                }
+            )
+        }
+    }
+
+    private fun isTestingEnabled(isTestingEnabled: Boolean) {
+        lifecycleScope.launch {
+            settingsService.saveIsTestingEnabled(isTestingEnabled)
+        }
     }
 }

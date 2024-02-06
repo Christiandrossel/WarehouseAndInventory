@@ -4,10 +4,17 @@ import android.util.Log
 import com.open.warehouseandinventory.model.Product
 import com.open.warehouseandinventory.repository.ProductRepository
 
-class ProductService {
+/**
+ * This singleton class is responsible for storing and retrieving the products of the application
+ */
+class ProductService private constructor(){
 
     private val productFacadeService = ProductFacadeService()
-    private val productRepository = ProductRepository.getInstance()
+    private val productRepository = ProductRepository.instance
+
+    companion object {
+        val instance: ProductService by lazy { ProductService() }
+    }
 
     fun getProduct(barcode: String): Product {
         return productRepository.getProductByBarcode(barcode)

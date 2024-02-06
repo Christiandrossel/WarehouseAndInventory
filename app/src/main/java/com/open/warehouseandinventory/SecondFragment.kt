@@ -19,7 +19,7 @@ class SecondFragment : Fragment(), NavigationService {
 
     private lateinit var productViewModel: ProductViewModel
     private var _binding: FragmentSecondBinding? = null
-    private val productService = ProductService()
+    private val productService = ProductService.instance
 
     // This property is only valid between onCreateView and
     // onDestroyView.
