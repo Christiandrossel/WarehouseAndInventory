@@ -20,6 +20,9 @@
     <string name="text_description">Beschreibung:</string>
     <string name="text_name">Produktname:</string>
 
+    <!--    Intent Strings-->
+    <string name="intent_barcode">BARCODE</string>
+
     <!--    Toast Messages-->
     <string name="toast_product_saved">Produkt gespeichert</string>
     <string name="toast_product_deleted">Produkt %1$s gelöscht</string>

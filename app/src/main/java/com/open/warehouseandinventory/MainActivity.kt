@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity(), NavigationService {
     }
 
     fun readBarcodeFromIntent(): String? {
-        val barcode = intent.getStringExtra("BARCODE")
+        val barcode = intent.getStringExtra(getString(R.string.intent_barcode))
         if (barcode != null) {
             Snackbar.make(binding.root, "Barcode: $barcode", Snackbar.LENGTH_LONG).show()
         }
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity(), NavigationService {
         Paper.init(activity)
     }
 
-    private fun addTestData() { //TODO test it
+    private fun addTestData() {
         lifecycleScope.launch {
             settingsService.getIsTestingEnabled().collect(
                 FlowCollector {
