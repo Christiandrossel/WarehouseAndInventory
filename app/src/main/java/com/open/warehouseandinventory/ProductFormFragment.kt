@@ -8,17 +8,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.open.warehouseandinventory.databinding.FragmentSecondBinding
+import com.open.warehouseandinventory.databinding.FragmentProductFormBinding
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
 import com.open.warehouseandinventory.service.ProductService
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SecondFragment : Fragment(), NavigationService {
+class ProductFormFragment : Fragment(), NavigationService {
 
     private lateinit var productViewModel: ProductViewModel
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: FragmentProductFormBinding? = null
     private val productService = ProductService.instance
 
     // This property is only valid between onCreateView and
@@ -28,7 +28,7 @@ class SecondFragment : Fragment(), NavigationService {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentProductFormBinding.inflate(inflater, container, false)
         productViewModel = ViewModelProvider(requireActivity())[ProductViewModel::class.java]
         binding.product = productViewModel
         changeProductScannerButton()

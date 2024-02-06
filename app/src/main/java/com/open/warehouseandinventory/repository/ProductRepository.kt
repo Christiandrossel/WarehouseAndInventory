@@ -27,4 +27,8 @@ class ProductRepository  private constructor() {
     fun getAll (): List<Product> {
         return Paper.book().allKeys.mapNotNull { Paper.book().read(it) }
     }
+
+    fun delete (product: Product) {
+        Paper.book().delete(product.id)
+    }
 }

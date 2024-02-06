@@ -1,5 +1,6 @@
 package com.open.warehouseandinventory
 
+import android.provider.Settings.System.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.open.warehouseandinventory.model.Product
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
+import com.open.warehouseandinventory.service.ProductService
 
 class ProductAdapter(
     private val productViewModel: ProductViewModel,
+    private val productService: ProductService,
     private val fragment: Fragment,
 ) :RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
@@ -56,20 +59,22 @@ class ProductAdapter(
 
     override fun getItemCount() = productViewModel.products.value?.size ?: 0
 
-    // here the onDeleteListener is called when a card is swiped left or right
+    /**
+     * This method is called when the user swipes a product to delete it
+     */
     fun onSwipeToDelete(position: Int) {
         val productToDelete = productViewModel.getProduct(position)
             ?: throw ProductCanNotDeleteException(position, IllegalStateException())
 
         val snackbar = Snackbar.make(
             this.view,
-            "Product ${productToDelete.name} deleted",
+            this.view.context.getString(R.string.toast_product_deleted, productToDelete.name),
             Snackbar.LENGTH_SHORT
         )
-
-        snackbar.setAction("UNDO") {
+        snackbar.setAction(this.view.context.getString(R.string.undo_button)) {
             productViewModel.setProduct(productToDelete)
             productViewModel.addProductAt(position, productToDelete)
+            productService.saveProduct(productToDelete)
             notifyItemInserted(position)
             snackbar.dismiss()
         }
@@ -82,6 +87,7 @@ class ProductAdapter(
         }
 
         productViewModel.removeAt(position)
+        productService.deleteProduct(productToDelete)
         notifyItemRemoved(position)
     }
 }

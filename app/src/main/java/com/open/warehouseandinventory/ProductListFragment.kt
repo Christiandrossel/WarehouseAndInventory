@@ -10,18 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.open.warehouseandinventory.databinding.FragmentFirstBinding
+import com.open.warehouseandinventory.databinding.FragmentProductListBinding
 import com.open.warehouseandinventory.model.viewmodel.ProductViewModel
+import com.open.warehouseandinventory.service.ProductService
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment(), NavigationService {
+class ProductListFragment : Fragment(), NavigationService {
 
     private lateinit var productViewModel: ProductViewModel
     private lateinit var adapter: ProductAdapter
+    private val productService = ProductService.instance
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentProductListBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -31,11 +33,11 @@ class FirstFragment : Fragment(), NavigationService {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentProductListBinding.inflate(inflater, container, false)
         productViewModel = ViewModelProvider(requireActivity()).get(ProductViewModel::class.java)
 
         // Set product adapter and remove item
-        adapter = ProductAdapter(productViewModel, this)
+        adapter = ProductAdapter(productViewModel, productService , this)
 
         binding.productRecyclerView.adapter = adapter
         binding.productRecyclerView.layoutManager = LinearLayoutManager(context)
