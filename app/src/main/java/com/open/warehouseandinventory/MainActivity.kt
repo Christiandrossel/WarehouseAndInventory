@@ -91,6 +91,10 @@ class MainActivity : AppCompatActivity(), NavigationService {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_csv_export -> {
+                navigateCSVExportFragment(this.findViewById(android.R.id.content))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -109,14 +113,28 @@ class MainActivity : AppCompatActivity(), NavigationService {
         return barcode
     }
 
+    /**
+     * Open the list of products fragment
+     */
     override fun navigateListProductsFragment(view: View) {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
     }
 
+    /**
+     * Open the edit product fragment
+     */
     override fun navigateEditProductFragment(view: View) {
         val newNavController = findNavController(R.id.nav_host_fragment_content_main)
         newNavController.navigate(R.id.action_FirstFragment_to_SecondFragment)
+    }
+
+    /**
+     * Open the CSV export fragment
+     */
+    override fun navigateCSVExportFragment(view: View) {
+        val newNavController = findNavController(R.id.nav_host_fragment_content_main)
+        newNavController.navigate(R.id.action_FirstFragment_to_CSVExportFragment)
     }
 
     private fun instanciateDatabase(activity: MainActivity) {

@@ -14,7 +14,12 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+
+        <action
+            android:id="@+id/action_FirstFragment_to_CSVExportFragment"
+            app:destination="@id/CSVExportFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.open.warehouseandinventory.ProductFormFragment"
@@ -25,4 +30,15 @@
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/CSVExportFragment"
+        android:name="com.open.warehouseandinventory.CSVExportFragment"
+        android:label="@string/action_csv_export"
+        tools:layout="@layout/fragment_csv_export" >
+        <action
+            android:id="@+id/action_CSVExportFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
+
 </navigation>

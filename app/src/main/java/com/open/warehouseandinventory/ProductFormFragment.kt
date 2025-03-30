@@ -72,7 +72,6 @@ class ProductFormFragment : Fragment(), NavigationService {
 
     private fun cancelButtonClickListener() {
         binding.buttonCancel.setOnClickListener {
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
             navigateListProductsFragment(it)
         }
     }
@@ -124,6 +123,10 @@ class ProductFormFragment : Fragment(), NavigationService {
 
     override fun navigateEditProductFragment(view: View) {
         view.findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+    }
+
+    override fun navigateCSVExportFragment(view: View) {
+        view.findNavController().navigate(R.id.action_FirstFragment_to_CSVExportFragment)
     }
 
     override fun navigateListProductsFragment(view: View) {

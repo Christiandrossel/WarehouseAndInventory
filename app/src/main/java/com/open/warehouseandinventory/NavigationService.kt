@@ -7,4 +7,6 @@ interface NavigationService {
     fun navigateListProductsFragment(view: View)
 
     fun navigateEditProductFragment(view: View)
+
+    fun navigateCSVExportFragment(view: View)
 }

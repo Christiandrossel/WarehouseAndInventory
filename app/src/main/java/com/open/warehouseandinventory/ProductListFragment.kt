@@ -81,6 +81,10 @@ class ProductListFragment : Fragment(), NavigationService {
         view.findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
     }
 
+    override fun navigateCSVExportFragment(view: View) {
+        view.findNavController().navigate(R.id.action_FirstFragment_to_CSVExportFragment)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
