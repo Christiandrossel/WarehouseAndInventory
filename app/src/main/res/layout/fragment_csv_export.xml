@@ -1,155 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".CSVExportFragment">
 
-    <data>
-        <variable
-            name="product"
-            type="com.open.warehouseandinventory.model.viewmodel.ProductViewModel" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_height="wrap_content"
+        android:text="@string/csv_export_title"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
 
-        <TextView
-            android:id="@+id/textViewBarcodeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_barcode"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="17dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="20sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/csv_export_description"
+        android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/editTextBarcode"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@={product.barcode}"
-            android:layout_marginTop="17dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/textViewBarcodeLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewBarcodeLabel" />
+    <CheckBox
+        android:id="@+id/cb_include_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/include_csv_header"
+        android:checked="true"/>
 
-        <TextView
-            android:id="@+id/textViewNameLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_name"
-            android:layout_marginTop="17dp"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewBarcodeLabel" />
+    <TextView
+        android:id="@+id/tv_export_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textStyle="italic"
+        android:visibility="gone"/>
 
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@={product.name}"
-            android:layout_marginTop="17dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/textViewNameLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewNameLabel" />
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/textViewQuantityLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_quantity"
-            android:layout_marginTop="17dp"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewNameLabel" />
+    <Button
+        android:id="@+id/btn_export_csv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/export_to_csv" />
 
-        <EditText
-            android:id="@+id/editTextQuantity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="@={product.quantity}"
-            android:layout_marginTop="17dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/textViewQuantityLabel"
-            app:layout_constraintEnd_toStartOf="@id/buttonIncrement"
-            app:layout_constraintStart_toEndOf="@id/textViewQuantityLabel" />
-
-        <ImageButton
-            android:id="@+id/buttonIncrement"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="17dp"
-            app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
-            app:layout_constraintEnd_toStartOf="@id/buttonDecrement"
-            app:layout_constraintStart_toEndOf="@id/editTextQuantity"
-            app:srcCompat="@drawable/plus_circle" />
-
-        <ImageButton
-            android:id="@+id/buttonDecrement"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="17dp"
-            app:layout_constraintBottom_toBottomOf="@id/editTextQuantity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/minus_circle" />
-
-        <TextView
-            android:id="@+id/textViewDescriptionLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_description"
-            android:layout_marginTop="17dp"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewQuantityLabel" />
-
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="251dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewDescriptionLabel">
-
-            <EditText
-                android:id="@+id/editTextDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                android:autofillHints=""
-                android:text="@={product.description}"
-                android:layout_marginTop="17dp"
-                android:textSize="20sp"
-                android:inputType="text|textMultiLine"
-                app:layout_constraintBottom_toBottomOf="@id/textViewDescriptionLabel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/textViewDescriptionLabel" />
-        </ScrollView>
-
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/save_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/buttonCancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextDescription"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/buttonCancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/break_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/buttonSave"
-            app:layout_constraintTop_toBottomOf="@id/editTextDescription"
-            app:layout_constraintVertical_bias="1.0" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</LinearLayout>

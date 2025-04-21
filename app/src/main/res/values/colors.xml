@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="swipe_delete_background">#9E2920</color>
+    <color name="swipe_delete_foreground">#FFFFFF</color>
+
+    <!-- CSV Export -->
+    <color name="success">#315028</color>
+    <color name="error">#9E2920</color>
 </resources>

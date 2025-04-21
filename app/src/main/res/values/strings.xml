@@ -54,4 +54,14 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
+
+    <!-- CSV export fragment -->
+    <string name="csv_export_title">CSV Exportieren</string>
+    <string name="csv_export_description">Exportiert die Produkte in eine CSV Datei</string>
+    <string name="export_to_csv">CSV Exportieren</string>
+    <string name="include_csv_header">CSV Kopfzeile hinzufügen</string>
+    <string name="no_products_to_export">Es gibt keine Produkte zum Exportieren</string>
+    <string name="export_success">Exportiert in Datei: %1$s</string>
+    <string name="export_failed">Exportieren fehlgeschlagen: %1$s</string>
+
 </resources>
