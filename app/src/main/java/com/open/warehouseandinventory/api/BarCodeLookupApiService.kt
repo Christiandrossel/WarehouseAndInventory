@@ -16,7 +16,7 @@ interface BarCodeLookupApiService {
     @GET("v3/products")
     fun getProduct(
         @Query("barcode") barcode: String,
-        @Query("formatted") formatted: String,
+        @Query("formatted") formatted: String = "y",
         @Query("key") apiKey: String
     ): Call<BarcodeLookupResponse>
 }

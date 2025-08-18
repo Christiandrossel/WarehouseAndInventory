@@ -16,6 +16,7 @@ class BarcodeLookupConnector: ProductConnector {
         .build()
     private val apiKey = "2qmcsw8yo98iia54pgqxpl5z69wy57"
 
+
     override fun getProduct(barcode: String): Product? {
         // call the API with barcode
         val productApiService = retroFit.create(BarCodeLookupApiService::class.java)
