@@ -8,7 +8,7 @@ import com.open.warehouseandinventory.model.Product
  * The reason is that Bracode libraries only have a quota limit.
  * These should first be used by different libraries
  */
-class ProductFacadeService {
+class ProductFacadeService() {
 
     private val barcodeLookupConnector = BarcodeLookupConnector()
 

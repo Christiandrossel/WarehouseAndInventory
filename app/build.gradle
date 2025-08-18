@@ -20,6 +20,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // API key for barcode scanner
+        buildConfigField("String", "BARCODELOOKUP_API_KEY", "\"${properties["BARCODELOOKUP_API_KEY"] ?: ""}\"")
     }
 
     buildTypes {

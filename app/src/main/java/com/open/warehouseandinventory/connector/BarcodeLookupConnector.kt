@@ -1,5 +1,6 @@
 package com.open.warehouseandinventory.connector
 
+import com.open.warehouseandinventory.BuildConfig
 import com.open.warehouseandinventory.api.BarCodeLookupApiService
 import com.open.warehouseandinventory.api.ScanBotApiService
 import com.open.warehouseandinventory.model.Product
@@ -7,15 +8,14 @@ import com.open.warehouseandinventory.model.mapper.toProduct
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class BarcodeLookupConnector: ProductConnector {
+class BarcodeLookupConnector(): ProductConnector {
 
     private val url = "https://api.barcodelookup.com/"
     private val retroFit: Retrofit = Retrofit.Builder()
         .baseUrl(url)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val apiKey = "2qmcsw8yo98iia54pgqxpl5z69wy57"
-
+    private val apiKey = BuildConfig.BARCODELOOKUP_API_KEY
 
     override fun getProduct(barcode: String): Product? {
         // call the API with barcode
