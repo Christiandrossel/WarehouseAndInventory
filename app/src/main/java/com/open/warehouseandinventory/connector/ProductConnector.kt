@@ -4,5 +4,5 @@ import com.open.warehouseandinventory.model.Product
 
 interface ProductConnector {
 
-    fun getProduct(barcode: String): Product?
+    suspend fun getProduct(barcode: String): Product?
 }

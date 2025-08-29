@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity(), NavigationService {
         addTestData()
 
         productViewModel.addAllProducts(productService.getAllProducts())
-        //productViewModel.setProduct(productService.getProduct("1234")!!)
 
         val barcode = readBarcodeFromIntent()
 
@@ -63,19 +62,25 @@ class MainActivity : AppCompatActivity(), NavigationService {
 
         val view = findViewById<View?>(android.R.id.content)
         if (barcode != null) {
-            productViewModel.setProduct(productService.getProduct(barcode))
-            navigateEditProductFragment(view)
+            lifecycleScope.launch { // Launch coroutine for suspend function
+                val product = productService.getProduct(barcode)
+                productViewModel.setProduct(product)
+                navigateEditProductFragment(view) // Ensure this is safe to call here or move if UI update depends on product
+            }
         }
 
         barcodeScannerClickListener()
     }
 
     private fun barcodeScannerClickListener() {
-        binding.fab.setOnClickListener {
+        binding.fab.setOnClickListener { view -> // Changed 'it' to 'view' for clarity
             BarcodeScannerV2(this, productViewModel) { barcode ->
-                productViewModel.setProduct(productService.getProduct(barcode))
+                lifecycleScope.launch { // Launch coroutine for suspend function
+                    val product = productService.getProduct(barcode)
+                    productViewModel.setProduct(product)
+                    navigateEditProductFragment(view) // Moved navigation here
+                }
             }
-            navigateEditProductFragment(it)
         }
     }
 

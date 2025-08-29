@@ -16,7 +16,7 @@ class ProductService private constructor(){
         val instance: ProductService by lazy { ProductService() }
     }
 
-    fun getProduct(barcode: String): Product {
+    suspend fun getProduct(barcode: String): Product {
         return productRepository.getProductByBarcode(barcode)
             .also { Log.d("Product", "Product already exists and is being issued!") }
             ?: productFacadeService.getProduct(barcode)?.let {
