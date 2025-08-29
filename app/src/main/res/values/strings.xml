@@ -33,6 +33,7 @@
     <!--    Toast Messages-->
     <string name="toast_product_saved">Produkt gespeichert</string>
     <string name="toast_product_deleted">Produkt %1$s gelöscht</string>
+    <string name="toast_product_not_found">Produkt nicht gefunden</string>
 
     <!-- Error Messages -->
     <string name="error_empty_product_name">Produktname darf nicht leer sein!</string>

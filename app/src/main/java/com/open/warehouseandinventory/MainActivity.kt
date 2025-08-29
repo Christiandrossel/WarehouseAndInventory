@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationService {
                 lifecycleScope.launch { // Launch coroutine for suspend function
                     val product = productService.getProduct(barcode)
                     productViewModel.setProduct(product)
+
                     navigateEditProductFragment(view) // Moved navigation here
                 }
             }
