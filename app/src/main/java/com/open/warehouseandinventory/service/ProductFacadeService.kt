@@ -23,7 +23,7 @@ class ProductFacadeService {
 
     // List of connectors to try in order.
     // The order here determines which connector is tried first.
-    private val connectors: List<ProductConnector> = listOf(
+    private val connectors: LinkedHashSet<ProductConnector> = linkedSetOf(
         barcodeLookupConnector,
         datakickConnector,
         gtinSearchConnector,
