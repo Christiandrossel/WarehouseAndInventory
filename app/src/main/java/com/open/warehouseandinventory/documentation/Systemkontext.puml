@@ -1,0 +1,39 @@
+@startuml
+title Systemkontext – Inventar-App
+
+actor "Mitarbeiter" as User
+node "Kamera" as Camera
+database "PaperDatabase" as LocalDB
+
+rectangle "Inventar-App" as App {
+  [Fassade] as Facade
+}
+
+cloud "Öffentliche Produktdatenbanken (REST)" as Public {
+  [BarcodeLookup]
+  [Datakick]
+  [GtinSearch]
+  [ScanBot]
+}
+
+User --> App : Interagiert direkt
+App --> Camera : Nutzt zum Scannen von Barcodes
+App --> Facade : Sendet Barcode
+Facade --> [BarcodeLookup] : REST
+Facade --> [Datakick] : REST
+Facade --> [GtinSearch] : REST
+Facade --> [ScanBot] : REST
+
+App --> LocalDB : Inventar speichern\nund laden
+
+note right of App
+Ergebnisse (z. B. Produktdetails)
+werden im Formular ergänzt.
+end note
+
+note right of Facade
+Kapselt spezialisierte
+Connector-Klassen pro Datenquelle.
+end note
+
+@enduml
