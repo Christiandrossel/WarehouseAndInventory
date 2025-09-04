@@ -6,3 +6,6 @@ interface ProductConnector {
 
     suspend fun getProduct(barcode: String): Product?
 }
+
+
+
